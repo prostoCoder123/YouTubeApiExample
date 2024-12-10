@@ -1,0 +1,12 @@
+﻿@page
+@model YouTubeAPIExample.Identity.Pages.Account.ExternalLoginModel
+@{
+    ViewData["Title"] = "Welcome!";
+}
+
+<h2>ViewData["Title"]</h2>
+
+<p id="external-login-description" class="text-info">
+    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
+    <a asp-page="Account">Your account</a>
+</p>

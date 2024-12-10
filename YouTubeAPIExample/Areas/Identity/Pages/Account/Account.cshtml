@@ -1,0 +1,40 @@
+﻿@page
+@model YouTubeAPIExample.Areas.Identity.Pages.Account.AccountModel
+@{
+    ViewData["Title"] = "Account";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.GivenNameClaim != null)
+{
+    <h3>
+        Hello <b>@Model.GivenNameClaim.Value!</b>
+    </h3>
+}
+@if (Model.PictureUrlClaim != null)
+{
+    <img style="margin:15px 0" alt="User's Google picture" src="@Model.PictureUrlClaim.Value">
+}
+
+<h2>Identity Claims</h2>
+
+<dl>
+    @foreach (var claim in User.Claims)
+    {
+        <dt>@claim.Type</dt>
+        <dd>@claim.Value</dd>
+    }
+</dl>
+
+<h2>Authentication Properties</h2>
+
+<dl>
+    @if (Model.AuthProperties != null)
+    {
+        @foreach (var prop in Model.AuthProperties)
+        {
+            <dt>@prop.Key</dt>
+            <dd>@prop.Value</dd>
+        }
+    }
+</dl>

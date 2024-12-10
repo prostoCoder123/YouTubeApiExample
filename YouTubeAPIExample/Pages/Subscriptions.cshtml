@@ -1,0 +1,32 @@
+﻿@page
+@model YouTubeAPIExample.Pages.SubscriptionsModel
+@{
+    ViewData["Title"] = "Your subscriptions";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <dl>
+        @foreach (var channel in Model.Channels.Items)
+        {
+            <dt>@channel.Snippet.Title</dt>
+            <dd>
+                <img style="margin:15px 0"
+                     src="@channel.Snippet.Thumbnails.Default.Url">
+                <p>@channel.Snippet.Description</p>
+            </dd>
+            <dd>Videos: @channel.ContentDetails.TotalVideos, new videos: @channel.ContentDetails.NewVideos</dd>
+        }
+    </dl>
+    <div>
+        @if (!string.IsNullOrWhiteSpace(Model.Channels.PrevPageToken))
+        {
+            <a asp-page="Subscriptions" asp-route-pageToken="@Model.Channels.PrevPageToken">Prev</a>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Channels.NextPageToken))
+        {
+            <a asp-page="Subscriptions" asp-route-pageToken="@Model.Channels.NextPageToken">Next</a>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,19 @@
+﻿@page
+@model YouTubeAPIExample.Pages.MyChannelModel
+@{
+    ViewData["Title"] = "Your channel";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <dl>
+        @if(Model.Profile != null)
+        {
+            <dt>@Model.Profile.Snippet.Title</dt>
+            <dd>@Model.Profile.Snippet.Description</dd>
+            <dd>Created: @Model.Profile.Snippet.PublishedAt</dd>
+            <dd>Videos: @Model.Profile.Statistics.VideoCount</dd>
+            <dd>Subscribers: @Model.Profile.Statistics.SubscriberCount</dd>
+        }
+    </dl>
+</div>
