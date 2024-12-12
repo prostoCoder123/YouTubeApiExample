@@ -5,7 +5,7 @@ ASP.NET Razor Pages app with Google external authentication to access YouTube Da
 ## Google external login setup
 
 ASP.NET Core makes it easy to sign-in using existing credentials from external authentication providers like Google.
-Considering Google as an external authentication provider first you need to create credentials and project on
+Considering Google as an external authentication provider first you need to create credentials to obtain an access token from Google's authorization servers:
 
 1. Go to the [Credentials page](https://console.developers.google.com/apis/credentials).
 2. Click Create credentials > OAuth client ID.
