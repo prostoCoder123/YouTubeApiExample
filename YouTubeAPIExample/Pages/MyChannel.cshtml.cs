@@ -23,7 +23,7 @@ namespace YouTubeAPIExample.Pages
             if (string.IsNullOrWhiteSpace(googleBearerToken))
             {
                 logger.LogInformation("Redirecting to login page");
-                Redirect("Identity/Account/Login");
+                return Redirect("Identity/Account/Login?returnUrl=MyChannel");
             }
 
             string query = options.Value.ChannelQuery;

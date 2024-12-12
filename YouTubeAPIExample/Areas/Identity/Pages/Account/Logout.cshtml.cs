@@ -17,7 +17,9 @@ namespace YouTubeAPIExample.Areas.Identity.Pages.Account
             await signInManager.SignOutAsync();
             logger.LogInformation(LoggerEventIds.UserLoggedOut, "User logged out.");
 
-            return returnUrl == null ? Page() : RedirectToPage(returnUrl);
+            // This needs to be a redirect so that the browser performs a new
+            // request and the identity for the user gets updated.
+            return returnUrl == null ? RedirectToPage(returnUrl) : LocalRedirect(returnUrl);
         }
     }
 }

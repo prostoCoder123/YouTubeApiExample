@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
@@ -86,7 +85,8 @@ namespace YouTubeAPIExample.Identity.Pages.Account
                 }
             }
 
-            await signInManager.SignInAsync(user, isPersistent: true, GoogleDefaults.AuthenticationScheme);
+            // set the auth cookie
+            await signInManager.SignInAsync(user, isPersistent: true, info.LoginProvider);
             await signInManager.UpdateExternalAuthenticationTokensAsync(info);
 
             return Redirect(returnUrl);
