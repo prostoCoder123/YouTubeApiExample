@@ -1,8 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authentication;
+@using Microsoft.AspNetCore.Authentication.Google;
+
 @inject SignInManager<IdentityUser> SignInManager
 
+@{
+    SignInManager.AuthenticationScheme = GoogleDefaults.AuthenticationScheme;
+}
+
 <ul class="navbar-nav">
-@if (User?.Identity?.IsAuthenticated == true) // SignInManager.IsSignedIn(User)
+@if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
         <a

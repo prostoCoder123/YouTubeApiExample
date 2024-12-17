@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YouTubeAPIExample.Data;
@@ -24,12 +25,20 @@ services.Configure<MyGoogleOptions>(
 var options = configuration.GetSection(MyGoogleOptions.SectionName).Get<MyGoogleOptions>()
     ?? throw new ArgumentNullException(nameof(configuration), "The options were not found");
 
+// url paths to login/logout pages if Authorize attribute applied
+Action<CookieAuthenticationOptions> cookieAction = cookieOptions =>
+{
+    cookieOptions.LoginPath = "/Identity/Account/Login";
+    cookieOptions.LogoutPath = "/Identity/Account/Logout";
+};
+
 // Add external authentication provider - Google
 services.AddAuthentication(authOptions =>
 {
     authOptions.DefaultScheme = IdentityConstants.ExternalScheme;
+    authOptions.DefaultAuthenticateScheme = IdentityConstants.ExternalScheme;
 })
-    .AddGoogle(googleOptions =>
+    .AddGoogle(googleOptions => // Add external scheme = "Google"
     {
         googleOptions.ClientId = configuration["Authentication:Google:ClientId"]
             ?? throw new ArgumentNullException("The Google configuration (ClientId) was not found");
@@ -40,16 +49,7 @@ services.AddAuthentication(authOptions =>
         googleOptions.ClaimActions.MapJsonKey(options.ProfilePictureKey, "picture", "url");
         googleOptions.SaveTokens = true;
     })
-    .AddCookie(IdentityConstants.ApplicationScheme, cookieOptions =>
-    {
-        cookieOptions.LoginPath = "/Identity/Account/Login";
-        cookieOptions.LogoutPath = "/Identity/Account/Logout";
-    })
-    .AddCookie(IdentityConstants.ExternalScheme, cookieOptions =>
-    {
-        cookieOptions.LoginPath = "/Identity/Account/Login";
-        cookieOptions.LogoutPath = "/Identity/Account/Logout";
-    });
+    .AddCookie(IdentityConstants.ExternalScheme, cookieAction);
 
 var connectionString = configuration.GetConnectionString("DefaultConnection")
     ?? throw new ArgumentNullException("The default connection string was not found");

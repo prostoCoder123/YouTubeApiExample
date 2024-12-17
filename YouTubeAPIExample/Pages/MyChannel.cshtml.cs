@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,6 +24,8 @@ namespace YouTubeAPIExample.Pages
             if (string.IsNullOrWhiteSpace(googleBearerToken))
             {
                 logger.LogInformation("Redirecting to login page");
+                // sign out the current user and delete their cookie
+                await HttpContext.SignOutAsync();
                 return Redirect("Identity/Account/Login?returnUrl=MyChannel");
             }
 

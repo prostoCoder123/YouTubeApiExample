@@ -14,6 +14,7 @@ namespace YouTubeAPIExample.Areas.Identity.Pages.Account
     {
         public async Task<IActionResult> OnPost(string? returnUrl = null)
         {
+            signInManager.AuthenticationScheme = IdentityConstants.ExternalScheme;
             await signInManager.SignOutAsync();
             logger.LogInformation(LoggerEventIds.UserLoggedOut, "User logged out.");
 

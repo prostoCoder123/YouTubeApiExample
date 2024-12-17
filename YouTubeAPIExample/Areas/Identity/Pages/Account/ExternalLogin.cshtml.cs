@@ -85,11 +85,11 @@ namespace YouTubeAPIExample.Identity.Pages.Account
                 }
             }
 
-            // set the auth cookie
-            await signInManager.SignInAsync(user, isPersistent: true, info.LoginProvider);
+            // set the external auth cookie
+            await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
             await signInManager.UpdateExternalAuthenticationTokensAsync(info);
 
-            return Redirect(returnUrl);
+            return RedirectToPage(returnUrl);
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string? returnUrl = null)
