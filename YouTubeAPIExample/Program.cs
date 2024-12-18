@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using YouTubeAPIExample.Data;
@@ -10,7 +9,7 @@ using YouTubeAPIExample.Services;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration
-    ?? throw new ArgumentNullException("The configuration was not found");
+    ?? throw new ArgumentNullException(nameof(builder.Configuration), "The configuration was not found");
 
 // Add services to the container.
 services.AddHttpClient();
@@ -25,34 +24,35 @@ services.Configure<MyGoogleOptions>(
 var options = configuration.GetSection(MyGoogleOptions.SectionName).Get<MyGoogleOptions>()
     ?? throw new ArgumentNullException(nameof(configuration), "The options were not found");
 
-// url paths to login/logout pages if Authorize attribute applied
-Action<CookieAuthenticationOptions> cookieAction = cookieOptions =>
-{
-    cookieOptions.LoginPath = "/Identity/Account/Login";
-    cookieOptions.LogoutPath = "/Identity/Account/Logout";
-};
-
 // Add external authentication provider - Google
 services.AddAuthentication(authOptions =>
 {
     authOptions.DefaultScheme = IdentityConstants.ExternalScheme;
     authOptions.DefaultAuthenticateScheme = IdentityConstants.ExternalScheme;
+    authOptions.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    authOptions.DefaultSignOutScheme = IdentityConstants.ExternalScheme;
 })
     .AddGoogle(googleOptions => // Add external scheme = "Google"
     {
         googleOptions.ClientId = configuration["Authentication:Google:ClientId"]
-            ?? throw new ArgumentNullException("The Google configuration (ClientId) was not found");
+            ?? throw new ArgumentNullException(nameof(configuration), "The Google configuration (ClientId) was not found");
         googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"]
-            ?? throw new ArgumentNullException("The Google configuration (ClientSecret) was not found"); ;
+            ?? throw new ArgumentNullException(nameof(configuration), "The Google configuration (ClientSecret) was not found"); ;
 
         googleOptions.Scope.Add(options.YoutubeScope);
         googleOptions.ClaimActions.MapJsonKey(options.ProfilePictureKey, "picture", "url");
         googleOptions.SaveTokens = true;
     })
-    .AddCookie(IdentityConstants.ExternalScheme, cookieAction);
+    .AddCookie(IdentityConstants.ExternalScheme, cookieOptions =>
+    {
+        // paths to login/logout pages if Authorize attribute applied
+        // it's different from the default /Account/Login and /Account/Logout values
+        cookieOptions.LoginPath = "/Identity/Account/Login";
+        cookieOptions.LogoutPath = "/Identity/Account/Logout";
+    });
 
 var connectionString = configuration.GetConnectionString("DefaultConnection")
-    ?? throw new ArgumentNullException("The default connection string was not found");
+    ?? throw new ArgumentNullException(nameof(configuration), "The default connection string was not found");
 
 services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString)

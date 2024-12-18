@@ -89,7 +89,7 @@ namespace YouTubeAPIExample.Identity.Pages.Account
             await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true);
             await signInManager.UpdateExternalAuthenticationTokensAsync(info);
 
-            return RedirectToPage(returnUrl);
+            return LocalRedirect(returnUrl);
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string? returnUrl = null)
@@ -108,7 +108,7 @@ namespace YouTubeAPIExample.Identity.Pages.Account
             ProviderDisplayName = info.ProviderDisplayName;
             ReturnUrl = returnUrl;
 
-            return RedirectToPage(returnUrl);
+            return LocalRedirect(returnUrl);
         }
 
         private IdentityUser CreateUser()

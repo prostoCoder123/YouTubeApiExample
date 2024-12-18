@@ -26,7 +26,7 @@ namespace YouTubeAPIExample.Pages
                 logger.LogInformation("Redirecting to login page");
                 // sign out the current user and delete their cookie
                 await HttpContext.SignOutAsync();
-                return Redirect("Identity/Account/Login?returnUrl=Subscriptions");
+                return Redirect("Identity/Account/Login?returnUrl=/Subscriptions");
             }
 
             string query = options.Value.SubscriptionsQuery;
