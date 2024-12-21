@@ -19,3 +19,9 @@ Next, open the Credentials menu, select the created OAuth 2.0 client, set up the
 3. Use SecretManager to store the retrieved tokens
 
 [For more information please read this guide](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-9.0)
+
+The Secret Manager is designed mostly for development stage.
+The user secrets.json file is only merged with appsettings.json when IsDevelopment = true.
+For other environments (staging, production), you can use some secure secrets storage service, for example, Key Vault and environment variables.
+Secrets should NOT be stored in appsettings, as it is plain text.
+You should use secrets (which is basically another json file outside of the source code), and then environment variables when running in production.

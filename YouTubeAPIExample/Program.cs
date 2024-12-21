@@ -8,8 +8,12 @@ using YouTubeAPIExample.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-var configuration = builder.Configuration
-    ?? throw new ArgumentNullException(nameof(builder.Configuration), "The configuration was not found");
+
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    //.AddJsonFile($"appsettings.{builder.Environment}.json")
+    .AddUserSecrets<Program>()
+    .Build();
 
 // Add services to the container.
 services.AddHttpClient();
@@ -24,7 +28,7 @@ services.Configure<MyGoogleOptions>(
 var options = configuration.GetSection(MyGoogleOptions.SectionName).Get<MyGoogleOptions>()
     ?? throw new ArgumentNullException(nameof(configuration), "The options were not found");
 
-// Add external authentication provider - Google
+// Add external authentication
 services.AddAuthentication(authOptions =>
 {
     authOptions.DefaultScheme = IdentityConstants.ExternalScheme;
