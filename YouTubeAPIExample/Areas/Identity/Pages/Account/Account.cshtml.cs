@@ -1,9 +1,11 @@
+using System.Security.Claims;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
-using System.Security.Claims;
+
 using YouTubeAPIExample.Options;
 
 namespace YouTubeAPIExample.Areas.Identity.Pages.Account

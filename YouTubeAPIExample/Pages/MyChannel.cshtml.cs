@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
+
 using YouTubeAPIExample.Models;
 using YouTubeAPIExample.Options;
 using YouTubeAPIExample.Services;
@@ -30,6 +31,8 @@ namespace YouTubeAPIExample.Pages
             }
 
             string query = options.Value.ChannelQuery;
+
+            throw new HttpRequestException();
 
             Profile = (await apiExecutor.GetAsync(query, googleBearerToken!)).Items.First();
 

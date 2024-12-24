@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Options;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Text.Json;
+
+using Microsoft.Extensions.Options;
+
 using YouTubeAPIExample.Options;
 
 namespace YouTubeAPIExample.Services
